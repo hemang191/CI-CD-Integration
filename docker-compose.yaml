@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db # this means create the volume in the container of mongodb and map the data present in the backend to mongodb
+
+  backend:
+    container_name: backend
+    env_file: ./backend/.env
+    build: ./backend
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
